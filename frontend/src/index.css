@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@theme {
+  --color-f1-red: #FF1801;
+  --color-f1-dark: #111111;
+  --color-neon-blue: #00D2BE;
+}
+
+@layer base {
+  body {
+    @apply bg-zinc-950 text-slate-100 font-sans antialiased;
+    background-image: radial-gradient(circle at 50% 0%, rgba(255, 24, 1, 0.05) 0%, transparent 70%);
+  }
+}
+
+/* Custom Markdown Styles */
+.prose {
+  @apply text-slate-300 leading-relaxed max-w-none;
+}
+.prose h1 {
+  @apply text-3xl font-bold text-white mb-6 tracking-tight flex items-center gap-3 border-b border-white/10 pb-4;
+}
+.prose h2 {
+  @apply text-2xl font-semibold text-white mt-10 mb-4 tracking-tight flex items-center gap-2;
+}
+.prose h2::before {
+  content: "";
+  @apply block w-2 h-6 bg-f1-red rounded-sm;
+}
+.prose h3 {
+  @apply text-xl font-medium text-white/90 mt-8 mb-3;
+}
+.prose p {
+  @apply mb-5;
+}
+.prose ul {
+  @apply space-y-2 mb-6 ml-1;
+}
+.prose li {
+  @apply flex gap-3 text-slate-300;
+}
+.prose li::before {
+  content: "•";
+  @apply text-f1-red font-bold;
+}
+.prose strong {
+  @apply font-semibold text-white;
+}
+.prose code {
+  @apply bg-white/10 text-neon-blue px-2 py-0.5 rounded text-sm font-mono tracking-wider;
+}
+.prose blockquote {
+  @apply border-l-4 border-f1-red bg-white/5 p-4 rounded-r-lg italic text-slate-400 my-6;
+}
+.prose table {
+  @apply w-full text-left border-collapse my-8 overflow-hidden rounded-xl shadow-lg ring-1 ring-white/10 block overflow-x-auto;
+}
+.prose thead {
+  @apply bg-black/40 text-white border-b border-white/10;
+}
+.prose th {
+  @apply px-4 py-3 font-semibold text-sm uppercase tracking-wider bg-f1-red/10 text-f1-red whitespace-nowrap;
+}
+.prose td {
+  @apply px-4 py-3 border-b border-white/5 bg-zinc-900/50 text-slate-300 whitespace-nowrap;
+}
+.prose tbody tr:last-child td {
+  @apply border-0;
+}
+.prose tbody tr:hover td {
+  @apply bg-zinc-800/80 transition-colors;
+}
+
+/* Animations */
+@keyframes pulse-ring {
+  0% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(255, 24, 1, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(255, 24, 1, 0); }
+  100% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(255, 24, 1, 0); }
+}
+.animate-pulse-ring {
+  animation: pulse-ring 2s infinite;
+}

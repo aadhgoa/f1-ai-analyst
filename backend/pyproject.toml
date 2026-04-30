@@ -1,0 +1,31 @@
+[project]
+name = "f1-ai-analyst"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi>=0.135.2",
+    "fastf1>=3.8.2",
+    "fastmcp>=3.2.0",
+    "mcp>=1.26.0",
+    "polars>=1.39.3",
+    "pyarrow>=23.0.1",
+    "python-dotenv>=1.2.2",
+    "requests>=2.33.1",
+    "uvicorn>=0.42.0",
+]
+
+[dependency-groups]
+dev = [
+    "black>=26.3.1",
+    "pylint>=4.0.5",
+]
+
+[tool.black]
+line-length = 88
+target-version = ['py312']
+
+[tool.pylint.format]
+max-line-length = 88
+
