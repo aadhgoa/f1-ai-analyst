@@ -1,16 +1,48 @@
-# React + Vite
+# F1 AI Analyst Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the React frontend for the F1 Agentic Analyst system. It provides a rich dashboard to visualize live Formula 1 data and a persistent chat interface to interact with the multi-agent backend.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Race Dashboard**: Visualizes driver standings, lap traces, and top finishers.
+- **Agentic Chat Interface**: Ask questions about specific races, drivers, or strategies. The chat communicates with the multi-agent LangGraph backend, providing engineering-focused insights.
+- **Automated Summary Trigger**: A one-click "Analyze Race" button to generate full post-race analyses.
 
-## React Compiler
+## Getting Started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Prerequisites
+- Node.js (v18+)
 
-## Expanding the ESLint configuration
+### Environment Setup
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Create a `.env` file from the `.env.example`:
+
+```bash
+cp .env.example .env
+```
+
+Set the backend API URL (defaults to `http://localhost:8000` for local dev):
+
+```env
+VITE_API_URL=http://localhost:8000
+```
+
+### Installation & Running Locally
+
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Start the Vite development server:
+   ```bash
+   npm run dev
+   ```
+
+The application will be accessible at `http://localhost:5173`.
+
+## Architecture
+
+This frontend is built with React and Vite. It heavily relies on the backend FastAPI endpoints:
+- `GET /api/v1/dashboard-data`: Fetches synchronous telemetry.
+- `POST /api/v1/race-summary`: Triggers the asynchronous generation of a full race report.
+- `POST /api/v1/chat`: Communicates with the LangGraph agent for conversational F1 insights.
