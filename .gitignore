@@ -24,3 +24,6 @@ Thumbs.db
 .env.development
 .env.test
 .env.production
+backend/chroma.log
+backend/importtime.log
+backend/server.log

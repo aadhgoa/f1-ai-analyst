@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   backend:
-    build: ./f1-ai-analyst
+    build: ./backend
     ports:
       - "8000:8000"
     
@@ -10,3 +10,8 @@ services:
     build: ./frontend
     ports:
       - "5173:5173"
+
+  vectordb:
+    image: chromadb/chroma:latest
+    ports:
+      - "8080:8000"

@@ -10,8 +10,35 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 from mcp.server.fastmcp import FastMCP
 from app.services.data_service import F1RaceAnalyzer
 from app.services.event_service import detect_events
+import chromadb
+from chromadb.utils import embedding_functions
 
 mcp = FastMCP("f1_analyst")
+
+@mcp.tool()
+def query_historical_context(query: str) -> str:
+    """
+    Query historical F1 context from the vector database.
+    Use this to look up past performances, track histories, or driver biographies.
+    """
+    try:
+        client = chromadb.HttpClient(host="localhost", port=8080)
+        sentence_transformer_ef = embedding_functions.SentenceTransformerEmbeddingFunction(model_name="all-MiniLM-L6-v2")
+        collection = client.get_collection(name="f1_context", embedding_function=sentence_transformer_ef)
+        
+        results = collection.query(
+            query_texts=[query],
+            n_results=3
+        )
+        if not results['documents'] or not results['documents'][0]:
+            return "No historical context found."
+            
+        context = []
+        for doc in results['documents'][0]:
+            context.append(doc)
+        return "\n".join(context)
+    except Exception as e:
+        return f"Error querying vector DB: {str(e)}"
 
 
 @mcp.tool()

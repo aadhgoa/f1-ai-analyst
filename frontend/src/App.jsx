@@ -4,6 +4,7 @@ import ControlPanel from './components/ControlPanel'
 import Dashboard from './components/Dashboard'
 import ReportZone from './components/ReportZone'
 import EmptyState from './components/EmptyState'
+import ChatInterface from './components/ChatInterface'
 import './index.css'
 
 function App() {
@@ -93,6 +94,8 @@ function App() {
           loading={loading} 
           error={error} 
         />
+        
+        <ChatInterface />
       </main>
     </div>
   )
