@@ -11,18 +11,27 @@ graph TD
     User(HTTP API Client / Frontend) --> FastAPI[FastAPI Server]
     
     subgraph "Multi-Agent Loop (LangGraph)"
-        FastAPI -->|"run_f1_chat()"| Supervisor[Supervisor Agent]
-        Supervisor -->|Route| Orchestrator
-        Supervisor -->|Route| Strategy
-        Supervisor -->|Route| Driver
+        FastAPI -->|"run_f1_chat()"| Supervisor[Supervisor Node]
+        
+        Supervisor -->|Route| Strategy[Strategy Agent Node]
+        Supervisor -->|Route| Driver[Driver Agent Node]
+        Supervisor -->|Route| Orchestrator[Orchestrator Node]
+        
+        Strategy -->|Needs Tool| ToolExecutor[Tool Executor Node]
+        Driver -->|Needs Tool| ToolExecutor
+        Orchestrator -->|Needs Tool| ToolExecutor
+        
+        Strategy -->|Done| Orchestrator
+        Driver -->|Done| Orchestrator
+        
+        ToolExecutor -->|Return Result| Orchestrator
+        Orchestrator -->|Done| END((END))
         
         Orchestrator <--> Ollama((Local LLM))
         Strategy <--> Ollama
         Driver <--> Ollama
         
-        Strategy -->|MCP Protocol StdIO| MCPServer[FastMCP Component]
-        Driver -->|MCP Protocol StdIO| MCPServer
-        Orchestrator -->|MCP Protocol StdIO| MCPServer
+        ToolExecutor -->|MCP Protocol StdIO| MCPServer[FastMCP Component]
     end
     
     subgraph "Data Fetch & RAG Services"

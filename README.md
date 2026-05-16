@@ -11,18 +11,27 @@ graph TD
     Client[React/Vite Frontend] -->|HTTP POST /api/v1/chat| FastAPI[FastAPI Backend]
     
     subgraph "Multi-Agent Workflow (LangGraph)"
-        FastAPI -->|Start Agent| Supervisor[Supervisor Agent]
-        Supervisor -->|Route| Orchestrator[Orchestrator Agent]
-        Supervisor -->|Route| Strategy[Strategy Agent]
-        Supervisor -->|Route| Driver[Driver Performance Agent]
+        FastAPI -->|Start Agent| Supervisor[Supervisor Node]
+        
+        Supervisor -->|Route| Strategy[Strategy Agent Node]
+        Supervisor -->|Route| Driver[Driver Agent Node]
+        Supervisor -->|Route| Orchestrator[Orchestrator Node]
+        
+        Strategy -->|Needs Tool| ToolExecutor[Tool Executor Node]
+        Driver -->|Needs Tool| ToolExecutor
+        Orchestrator -->|Needs Tool| ToolExecutor
+        
+        Strategy -->|Done| Orchestrator
+        Driver -->|Done| Orchestrator
+        
+        ToolExecutor -->|Return Result| Orchestrator
+        Orchestrator -->|Done| END((END))
         
         Orchestrator <--> Ollama((Ollama local LLM))
         Strategy <--> Ollama
         Driver <--> Ollama
         
-        Strategy -->|Tool Call| MCPServer[FastMCP Server]
-        Driver -->|Tool Call| MCPServer
-        Orchestrator -->|Tool Call| MCPServer
+        ToolExecutor -->|MCP Protocol StdIO| MCPServer[FastMCP Server]
     end
     
     subgraph "Data & Tool Layer"
