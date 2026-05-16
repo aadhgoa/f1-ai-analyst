@@ -51,3 +51,6 @@ graph TD
     - **`ingest_data.py`**: Populates the local ChromaDB with F1 historical context for Retrieval-Augmented Generation (RAG).
 
 See the README at the root of `F1_projects` for full frontend/full-stack system design context.
+
+
+View PDF HERE : (../F1_AI_Analyst_Documentation.pdf)
